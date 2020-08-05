@@ -1,0 +1,308 @@
+{
+    "snippets" : [
+        {
+            "name" : "Libraries",
+            "code" : [
+                "import pandas as pd",
+                "import numpy as np",
+                "import seaborn as sns",
+                "import matplotlib.pyplot as plt",
+                "%matplotlib inline",
+                "import warnings",
+                "warnings.filterwarnings('ignore')",
+                "# pandas defaults",
+                "pd.options.display.max_columns = 500",
+                "pd.options.display.max_rows = 500"
+            ]
+        },
+        {
+            "name" : "Preprocessing-Array Method",
+            "code" : [
+                "df = pd.read_csv('Data.csv')",
+                "#iloc will use index, loc will use feature names, value will turn it into array",
+                "X = df.iloc[:, :-1].values",
+                "y = df.iloc[:, -1].values",
+                "#X = df.loc[:,['Country','Age','Salary']]",
+                "#y = df.loc[:,'Purchased']",
+                "from sklearn.impute import SimpleImputer",
+                "imputer = SimpleImputer(missing_values=np.nan, strategy='mean')",
+                "imputer.fit(X[:, 1:3]) #[Row start:Row end index, column start,column end index]",
+                "X[:, 1:3] = imputer.transform(X[:, 1:3])"
+            ]
+        },
+        {
+            "name" : "Preprocessing-Replace",
+            "code" : [
+                "train['Fare'] = train['Fare'].replace(np.nan, 32) #nan with mean",
+                "train['Sex'].replace(['female','male'] , [0,1], inplace = True) #Categorizing"
+
+            ]
+        },
+        {
+            "name" : "Using Bins",
+            "code" : [
+                "bins = [0,8,15,20,40,60,100]",
+                "names=(['Baby', 'Child', 'Teenager', 'Youngster', 'Adult', 'Senior Citizen'])",
+                "train['Age] = pd.cut(train['Age'], bins, labels = names)"
+
+            ]
+        },
+        {
+            "name" : "Spliting Data",
+            "code" : [
+                "X = df.drop(labels='target_class', axis=1) # Features",
+                "y = df.loc[:,'target_class']",  
+                "from sklearn.model_selection import train_test_split",
+                "X_train,X_test,y_train,y_test=train_test_split(X,Y,test_size=0.2,random_state=0)"
+
+            ]
+        },
+        {
+            "name" : "Encoding",
+            "code" : [
+                "#use after converting data into values(Preprocessing AM)",
+                "from sklearn.compose import ColumnTransformer",
+                "from sklearn.preprocessing import OneHotEncoder",
+                "ct = ColumnTransformer(transformers=[('encoder', OneHotEncoder(), [0])], remainder='passthrough')",
+                "X = np.array(ct.fit_transform(X))"
+
+            ]
+        },
+        {
+            "name" : "Min Max, Standard",
+            "code" : [
+                "from sklearn import preprocessing",
+                "min_max_scaler = preprocessing.MinMaxScaler()",
+                "scaled_array = min_max_scaler.fit_transform(float_array)",
+                "#STANDARD",
+                "from sklearn.preprocessing import StandardScaler",
+                "sc = StandardScaler()",
+                "X_train[:, 3:] = sc.fit_transform(X_train[:, 3:])",
+                "X_test[:, 3:] = sc.transform(X_test[:, 3:])"
+
+            ]
+        },
+        {
+            "name" : "Simple Linear (R)",
+            "code" : [
+                "from sklearn.linear_model import LinearRegression",
+                "reg=LinearRegression()",
+                "reg.fit(X_train,y_train)",
+                "print('Intercept',reg.intercept_)",
+                "print('Coefficient',reg.coef_)",
+                "y_pred=reg.predict(X_test)",
+                "np.set_printoptions(precision=2)"
+            ]
+        },
+        {
+            "name" : "Polynomial (R)",
+            "code" : [
+                "from sklearn.preprocessing import PolynomialFeatures",
+                "poly_reg = PolynomialFeatures(degree = 4)",
+                "X_poly = poly_reg.fit_transform(X)",
+                "lin_reg_2 = LinearRegression()",
+                "lin_reg_2.fit(X_poly, y)",
+                "#VISUALIZATION",
+                "from sklearn.preprocessing import PolynomialFeatures",
+                "poly_reg = PolynomialFeatures(degree = 4)",
+                "X_poly = poly_reg.fit_transform(X)",
+                "lin_reg_2 = LinearRegression()",
+                "lin_reg_2.fit(X_poly, y)"
+            ]
+        },
+        {
+            "name" : "Multilinear (R)",
+            "code" : [
+                "from sklearn.linear_model import LinearRegression",
+                "regressor = LinearRegression()",
+                "regressor.fit(X_train, y_train)",
+                "y_pred = regressor.predict(X_test)",
+                "np.set_printoptions(precision=2)"
+
+            ]
+        },
+        {
+            "name" : "SVR (R)",
+            "code" : [
+                "from sklearn.svm import SVR",
+                "regressor = SVR(kernel = 'rbf')",
+                "regressor.fit(X_train, y_train)",
+                "y_pred = regressor.predict(X_test)",
+                "np.set_printoptions(precision=2)"
+
+            ]
+        },
+        {
+            "name" : "Decision Tree (R)",
+            "code" : [
+                "from sklearn.tree import DecisionTreeRegressor",
+                "regressor = DecisionTreeRegressor(random_state = 0)",
+                "regressor.fit(X_train, y_train)",
+                "y_pred = regressor.predict(X_test)",
+                "np.set_printoptions(precision=2)"
+            ]
+        },
+        {
+            "name" : "Random Forest (R)",
+            "code" : [
+                "from sklearn.ensemble import RandomForestRegressor",
+                "regressor = RandomForestRegressor(n_estimators = 10, random_state = 0)",
+                "regressor.fit(X_train, y_train)",
+                "y_pred = regressor.predict(X_test)",
+                "np.set_printoptions(precision=2)"
+            ]
+        },
+        {
+            "name" : "Logistic Regressor (C)",
+            "code" : [
+                "from sklearn.linear_model import LogisticRegression",
+                "classifier = LogisticRegression(random_state = 0)",
+                "classifier.fit(X_train, y_train)",
+                "y_pred = classifier.predict(X_test)"
+            ]
+        },
+        {
+            "name" : "K-Nearest (C)",
+            "code" : [
+                "from sklearn.neighbors import KNeighborsClassifier",
+                "classifier = KNeighborsClassifier(n_neighbors = 5, metric = 'minkowski', p = 2)",
+                "classifier.fit(X_train, y_train)",
+                "y_pred = classifier.predict(X_test)"
+                
+            ]
+        },
+        {
+            "name" : "SVM (C)",
+            "code" : [
+                "from sklearn.svm import SVC",
+                "#use different kernels acc to need rbf,polynomial etc. check from visualizing Results",
+                "classifier = SVC(kernel = 'linear', random_state = 0)",
+                "classifier.fit(X_train, y_train)",
+                "y_pred = classifier.predict(X_test)"
+                
+            ]
+        },
+        {
+            "name" : "Naive Bayes (C)",
+            "code" : [
+                "from sklearn.naive_bayes import GaussianNB",
+                "classifier = GaussianNB()",
+                "classifier.fit(X_train, y_train)",
+                "y_pred = classifier.predict(X_test)"
+                
+            ]
+        },
+        {
+            "name" : "DT Classifier (C)",
+            "code" : [
+                "from sklearn.tree import DecisionTreeClassifier",
+                "classifier = DecisionTreeClassifier(criterion = 'entropy', random_state = 0)",
+                "classifier.fit(X_train, y_train)",
+                "y_pred = classifier.predict(X_test)"
+                
+            ]
+        },
+        {
+            "name" : "Random Forest (C)",
+            "code" : [
+                "from sklearn.ensemble import RandomForestClassifier",
+                "classifier = RandomForestClassifier(n_estimators = 10, criterion = 'entropy', random_state = 0)",
+                "classifier.fit(X_train, y_train)",
+                "y_pred = classifier.predict(X_test)"
+                
+            ]
+        },
+        {
+            "name" : "Visualization Classfication",
+            "code" : [
+                "from matplotlib.colors import ListedColormap",
+                "X_set, y_set = X_test, y_test",
+                "X1, X2 = np.meshgrid(np.arange(start = X_set[:, 0].min() - 1, stop = X_set[:, 0].max() + 1, step = 0.01),",
+                "                     np.arange(start = X_set[:, 1].min() - 1, stop = X_set[:, 1].max() + 1, step = 0.01))",
+                "plt.contourf(X1, X2, classifier.predict(np.array([X1.ravel(), X2.ravel()]).T).reshape(X1.shape),",
+                "             alpha = 0.75, cmap = ListedColormap(('red', 'green')))",
+                "plt.xlim(X1.min(), X1.max())",
+                "plt.ylim(X2.min(), X2.max())",
+                "for i, j in enumerate(np.unique(y_set)):",
+                "    plt.scatter(X_set[y_set == j, 0], X_set[y_set == j, 1],",
+                "                c = ListedColormap(('red', 'green'))(i), label = j)",
+                "plt.title('title')",
+                "plt.xlabel('XTitle')",
+                "plt.ylabel('ytitle')",
+                "plt.legend()",
+                "plt.show()"
+                
+            ]
+        },
+        {
+            "name" : "Submission Table",
+            "code" : [
+                "np.set_printoptions(precision=2)",
+                "submission_df = {'Original': y_test,",
+                "    'Predicted': y_pred}",
+                " submission = pd.DataFrame(submission_df)"
+
+            ]
+        },
+        {
+            "name" : "Interactive graph",
+            "code" : [
+                "def f(order, test_data):",
+                    "x_train, x_test, y_train, y_test = train_test_split(x_data, y_data, test_size=test_data, random_state=0)",
+                    "pr = PolynomialFeatures(degree=order)",
+                    "x_train_pr = pr.fit_transform(x_train[['horsepower']])",
+                    "x_test_pr = pr.fit_transform(x_test[['horsepower']])",
+                    "poly = LinearRegression()",
+                    "poly.fit(x_train_pr,y_train)",
+                    "PollyPlot(x_train[['horsepower']], x_test[['horsepower']], y_train,y_test, poly, pr)",
+                    "interact(f, order=(0, 6, 1), test_data=(0.05, 0.95, 0.05))"
+            ]
+        },
+        {
+            "name" : "Errros",
+            "code" : [
+                "from sklearn.metrics import mean_squared_error, mean_absolute_error",
+                "print('Mean Absolute Error:',mean_absolute_error(y_test,y_pred))",
+                "print('Root Mean Squared Error:',math.sqrt(mean_squared_error(y_test,y_pred)))"
+            ]
+        },
+        {
+            "name" : "Confusion Matrix",
+            "code" : [
+                
+                "from sklearn.metrics import confusion_matrix,classification_report",
+                "import itertools",
+                "cm = confusion_matrix(y_test, y_predict)",               
+                "def plot_confusion_matrix(cm, classes,title='Confusion matrix',cmap=plt.cm.Blues):",
+    
+                    "plt.imshow(cm, interpolation='nearest', cmap=cmap)",
+                    "plt.title(title)",
+                    "plt.colorbar()",
+                    "tick_marks = np.arange(len(classes))",
+                    "plt.xticks(tick_marks, classes, rotation=45)",
+                    "plt.yticks(tick_marks, classes)",
+
+                    "fmt = 'd'" ,
+                    "thresh = cm.max() / 2.",
+                    "for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):",
+                        "plt.text(j, i, format(cm[i, j], fmt),horizontalalignment='center',color='white' if cm[i, j] > thresh else 'black')",
+
+                    "plt.tight_layout()",
+                    "plt.ylabel('True label')",
+                    "plt.xlabel('Predicted label')",
+   
+                "class_names=np.array(['0','1'])",
+                "plot_confusion_matrix(cm,class_names)",
+                "print(classification_report(y_test,y_predict))"
+            ]
+        },
+        {
+            "name" : "Accuracy",
+            "code" : [
+                "from sklearn.metrics import accuracy_score",
+                "acc_ts=accuracy_score(y_pred, y_test)",
+                "print('Test Accuracy',acc_ts)"
+            ]
+        }
+    ]
+}
