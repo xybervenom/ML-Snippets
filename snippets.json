@@ -7,12 +7,87 @@
                 "import numpy as np",
                 "import seaborn as sns",
                 "import matplotlib.pyplot as plt",
+                "import matplotlib as mpl",
+                "mpl.style.use('ggplot')",
                 "%matplotlib inline",
-                "import warnings",
-                "warnings.filterwarnings('ignore')",
                 "# pandas defaults",
                 "pd.options.display.max_columns = 500",
                 "pd.options.display.max_rows = 500"
+            ]
+        },
+        {
+            "name" : "Remove Warnings",
+            "code" : [
+                "import warnings",
+                "warnings.filterwarnings('ignore')"
+            ]
+        },
+        {
+            "name" : "Enumerate List",
+            "code" : [
+                "squares=['red', 'yellow', 'green', 'purple', 'blue']",
+                "for i, square in enumerate(squares):",
+                "    print(i, square)"
+            ]
+        },
+        {
+            "name" : "Basic Cleanup",
+            "code" : [
+                "# clean up the dataset to remove unnecessary columns (eg. REG)", 
+                "df_can.drop(['AREA', 'REG', 'DEV', 'Type', 'Coverage'], axis=1, inplace=True)",
+                "",
+                "# let's rename the columns so that they make sense",
+                "df_can.rename(columns={'OdName':'Country', 'AreaName':'Continent','RegName':'Region'}, inplace=True)",
+                "",
+                "# for sake of consistency, let's also make all column labels of type string",
+                "df_can.columns = list(map(str, df_can.columns))",
+                "",
+                "# set the country name as index - useful for quickly looking up countries using .loc method",
+                "df_can.set_index('Country', inplace=True)",
+                "",
+                "# add total column",
+                "df_can['Total'] = df_can.sum(axis=1)",
+                "",
+                "# years that we will be using in this lesson - useful for plotting later on",
+                "years = list(map(str, range(1980, 2014)))",
+                "print('data dimensions:', df_can.shape)"
+            ]
+        },
+        {
+            "name" : "while Loop",
+            "code" : [
+                "squares = ['orange', 'orange', 'purple', 'blue ', 'orange']",
+                "new_squares = []",
+                "i = 0",
+                "while(squares[i] == 'orange'):",
+                "new_squares.append(squares[i])",
+                "i = i + 1",
+                "print (new_squares)"
+            ]
+        },
+        {
+            "name" : "Ploting Vectors",
+            "code" : [
+                "def Plotvec1(u, z, v): #for 3 vectors",
+                    
+                "    ax = plt.axes()",
+                "    ax.arrow(0, 0, *u, head_width=0.05, color='r', head_length=0.1)",
+                "    plt.text(*(u + 0.1), 'u')",
+                "    ax.arrow(0, 0, *v, head_width=0.05, color='b', head_length=0.1)",
+                "    plt.text(*(v + 0.1), 'v')",
+                "    ax.arrow(0, 0, *z, head_width=0.05, head_length=0.1)",
+                "    plt.text(*(z + 0.1), 'z')",
+                "    plt.ylim(-2, 2)",
+                "    plt.xlim(-2, 2)",
+                
+                "def Plotvec2(a,b): for 2 vectors",
+                "    ax = plt.axes()",
+                "    ax.arrow(0, 0, *a, head_width=0.05, color ='r', head_length=0.1)",
+                "    plt.text(*(a + 0.1), 'a')",
+                "    ax.arrow(0, 0, *b, head_width=0.05, color ='b', head_length=0.1)",
+                "    plt.text(*(b + 0.1), 'b')",
+                "    plt.ylim(-2, 2)",
+                "    plt.xlim(-2, 2)"
             ]
         },
         {
@@ -231,6 +306,55 @@
                 "plt.ylabel('ytitle')",
                 "plt.legend()",
                 "plt.show()"
+                
+            ]
+        },
+        {
+            "name" : "K Means clusturing",
+            "code" : [
+                "#Elbow Method",
+                "from sklearn.cluster import KMeans",
+                "wcss = []",
+                "for i in range(1, 11):",
+                "    kmeans = KMeans(n_clusters = i, init = 'k-means++', random_state = 42)",
+                "    kmeans.fit(X)",
+                "    wcss.append(kmeans.inertia_)",
+                "plt.plot(range(1, 11), wcss)",
+                "plt.title('The Elbow Method')",
+                "plt.xlabel('Number of clusters')",
+                "plt.ylabel('WCSS')",
+                "plt.show()",
+                "#Algo",
+                "kmeans = KMeans(n_clusters = 5, init = 'k-means++', random_state = 42)",
+                "y_kmeans = kmeans.fit_predict(X)",
+                "#Visualization",
+                "plt.scatter(X[y_kmeans == 0, 0], X[y_kmeans == 0, 1], s = 100, c = 'red', label = 'Cluster 1')",
+                "plt.scatter(X[y_kmeans == 1, 0], X[y_kmeans == 1, 1], s = 100, c = 'blue', label = 'Cluster 2')",
+                "plt.scatter(X[y_kmeans == 2, 0], X[y_kmeans == 2, 1], s = 100, c = 'green', label = 'Cluster 3')",
+                "plt.scatter(X[y_kmeans == 3, 0], X[y_kmeans == 3, 1], s = 100, c = 'cyan', label = 'Cluster 4')",
+                "plt.scatter(X[y_kmeans == 4, 0], X[y_kmeans == 4, 1], s = 100, c = 'magenta', label = 'Cluster 5')",
+                "plt.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], s = 300, c = 'yellow', label = 'Centroids')",
+                "plt.title('Title')",
+                "plt.xlabel('Xtitle')",
+                "plt.ylabel('ytitles')",
+                "plt.legend()",
+                "plt.show()"
+                
+            ]
+        },
+        {
+            "name" : "Hierarchical Clustering",
+            "code" : [
+                "import scipy.cluster.hierarchy as sch",
+                "dendrogram = sch.dendrogram(sch.linkage(X, method = 'ward'))",
+                "plt.title('Dendrogram')",
+                "plt.xlabel('Customers')",
+                "plt.ylabel('Euclidean distances')",
+                "plt.show()",
+                "#Algo",
+                "from sklearn.cluster import AgglomerativeClustering",
+                "hc = AgglomerativeClustering(n_clusters = 5, affinity = 'euclidean', linkage = 'ward')",
+                "y_hc = hc.fit_predict(X)"
                 
             ]
         },
